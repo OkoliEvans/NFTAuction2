@@ -11,8 +11,6 @@ pragma solidity ^0.8.17;
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 
 contract Auction {
-
-
     event Log(string _message);
     event NFTAdded(address _NFT, string _message);
     event refund(address _receiver, bool _success);
@@ -112,7 +110,9 @@ contract Auction {
         if (startingPrice <= 0) {
             revert("Set start price");
         }
-        if(tokenId == 0) { revert("No NFT found: add NFT");}
+        if (tokenId == 0) {
+            revert("No NFT found: add NFT");
+        }
 
         setStartTime(_start);
         setEndTime(_end);
@@ -195,8 +195,10 @@ contract Auction {
         for (uint32 i = 0; i < bidders.length; i++) {
             if (bidders[i] != highestBidder) {
                 // payable(bidders[i]).transfer(bidsToAccounts[bidders[i]]);
-       
-                bool success = payable(bidders[i]).send(bidsToAccounts[bidders[i]]);
+
+                bool success = payable(bidders[i]).send(
+                    bidsToAccounts[bidders[i]]
+                );
                 require(success, "Transfer FAIL!");
             }
 
@@ -232,7 +234,7 @@ contract Auction {
         emit withdraw(_to, _amt, "Withdraw Operation successful...");
     }
 
-    receive() payable external {}
+    receive() external payable {}
 
-    fallback() payable external {}
+    fallback() external payable {}
 }
