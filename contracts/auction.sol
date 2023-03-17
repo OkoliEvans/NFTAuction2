@@ -6,7 +6,7 @@ pragma solidity ^0.8.17;
 ///@title Blind auction contract
 ///@notice Takes bids for an NFT without revealing bids made by bidders,
 ///@notice Transfers the NFT to the highest bidder, refunds every other bidder
-///@dev Keccak hash bids of each bidder and adds them to a map, retrives the highest bidder
+///@dev Maps bidders' addresses each to the amount bidded, retrives the highest bidder
 
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 
@@ -112,6 +112,8 @@ contract Auction {
         if (startingPrice <= 0) {
             revert("Set start price");
         }
+        if(tokenId == 0) { revert("No NFT found: add NFT");}
+
         setStartTime(_start);
         setEndTime(_end);
         auctionInSession = true;
