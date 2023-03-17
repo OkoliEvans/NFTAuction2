@@ -56,6 +56,15 @@ contract Auction {
     }
 
     /// SET INITIAL VARIABLES AND VALUES
+
+    function getAdmin() public view returns(address) {
+        return Admin;
+    }
+
+    function getContractAddress() public view returns(address){
+        return address(this);
+    }
+
     function setStartPrice(
         uint256 _startingPrice
     ) public onlyOwner returns (uint256) {
@@ -78,6 +87,7 @@ contract Auction {
 
         emit AddBeneficiary(_beneficiary, "Beneficiary added succesfully...");
     }
+    
 
     ///@dev Assuming the NFT to be auctioned is owned by third party Beneficiary
     function addNFT(address _NFT, uint32 _tokenId) public onlyOwner {
