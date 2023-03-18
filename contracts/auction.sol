@@ -91,14 +91,14 @@ contract Auction {
     
 
     ///@dev Assuming the NFT to be auctioned is owned by third party Beneficiary
-    function addNFT(address _NFT, uint32 _tokenId) public onlyOwner {
+    function addNFT(address _NFT, uint32 _tokenId, address _beneficiary) public onlyOwner {
         if (_NFT == address(0)) {
             revert("Invalid NFT address");
         }
         tokenId = _tokenId;
         NFT = _NFT;
 
-        IENFT(NFT).safeTransferFrom(beneficiary, address(this), _tokenId);
+        IENFT(NFT).transferFrom(_beneficiary, address(this), _tokenId);
 
         emit NFTAdded(_NFT, "NFT added successfully...");
     }
@@ -185,7 +185,7 @@ contract Auction {
         endAuction();
         pickWinner();
 
-        IENFT(NFT).safeTransferFrom(address(this), highestBidder, tokenId);
+        IENFT(NFT).transferFrom(address(this), highestBidder, tokenId);
 
         emit NftTransferred(
             highestBidder,

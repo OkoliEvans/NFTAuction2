@@ -31,19 +31,20 @@ async function main() {
   console.log("successful...");
 
   ///////////  APPROVE SMART CONTRACT  /////////////////
-  await BAYCAddr.connect(impersonatedSigner).approve(nftAuctionAddress,1);
+  await BAYCAddr.connect(impersonatedSigner).approve(nftAuctionAddress,9547);
   console.log("approved coool...");
   
 
   ///////// ADD NFT  //////////
-  await nftAuction.addNFT(BAYC, 9547);
+  await nftAuction.addNFT(BAYC, 9547, BAYC_holder);
   console.log("added NFT...");
 
   //////////// START AUCTION ////////////
   nftAuction.startAuction(1679042970, 1679142970);
   console.log("Auction started...");
   
-  
+  ///////////  ENTER BID  ///////////
+  // nftAuction.enterBid();
 
 }
 

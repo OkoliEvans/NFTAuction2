@@ -2,7 +2,9 @@
 
 pragma solidity ^0.8.17;
 
-interface IENFT {
+import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
+
+interface IENFT is IERC721 {
 
     function balanceOf(address owner) external view returns (uint256 balance);
 
