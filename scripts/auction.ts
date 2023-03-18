@@ -1,5 +1,6 @@
 import { ethers } from "hardhat";
 
+
 async function main() {
   
   const [ owner, account1 ] = await ethers.getSigners();
@@ -18,23 +19,19 @@ async function main() {
   ///  SET START PRICE ///
   await nftAuction.setStartPrice(ethers.utils.parseEther("0.5"));
 
-
-  /////////  ASSIGN BENEFICIARY  //////////
-  // const beneficiary = "0xc6d123c51c7122d0b23e8B6ff7eC10839677684d";
-  const BAYC_holder = "0x08c1AE7E46D4A13b766566033b5C47c735e19F6f";
-  await nftAuction.assignBeneficiary(BAYC_holder);
-  console.log("successful...");
-
-  ///////////   IMPERSONATE SIGNER  /////////////////////
-  const helpers = require("@nomicfoundation/hardhat-network-helpers");
-  await helpers.impersonateAccount(BAYC_holder);
   
-  const signer = await ethers.getSigner(BAYC_holder);
+  ///////////   IMPERSONATE SIGNER  /////////////////////
+  const BAYC_holder = "0x08c1AE7E46D4A13b766566033b5C47c735e19F6f";
+  const impersonatedSigner = await ethers.getImpersonatedSigner(BAYC_holder);
   console.log("Impersonation cool...");
   
 
+  /////////  ASSIGN BENEFICIARY  //////////
+  await nftAuction.assignBeneficiary(BAYC_holder);
+  console.log("successful...");
+
   ///////////  APPROVE SMART CONTRACT  /////////////////
-  await BAYCAddr.connect(signer).approve(nftAuctionAddress,1);
+  await BAYCAddr.connect(impersonatedSigner).approve(nftAuctionAddress,1);
   console.log("approved coool...");
   
 
