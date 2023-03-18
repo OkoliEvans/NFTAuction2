@@ -8,7 +8,8 @@ pragma solidity ^0.8.17;
 ///@notice Transfers the NFT to the highest bidder, refunds every other bidder
 ///@dev Maps bidders' addresses each to the amount bidded, retrives the highest bidder
 
-import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
+// import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
+import "./IENFT.sol";
 
 contract Auction {
     event Log(string _message);
@@ -43,7 +44,7 @@ contract Auction {
 
     address NFT;
     address payable highestBidder;
-    address payable Admin;
+    address payable public Admin;
     address payable beneficiary;
 
     constructor() {
@@ -97,7 +98,7 @@ contract Auction {
         tokenId = _tokenId;
         NFT = _NFT;
 
-        IERC721(NFT).transferFrom(beneficiary, address(this), _tokenId);
+        IENFT(NFT).safeTransferFrom(beneficiary, address(this), _tokenId);
 
         emit NFTAdded(_NFT, "NFT added successfully...");
     }
@@ -184,7 +185,7 @@ contract Auction {
         endAuction();
         pickWinner();
 
-        IERC721(NFT).transferFrom(address(this), highestBidder, tokenId);
+        IENFT(NFT).safeTransferFrom(address(this), highestBidder, tokenId);
 
         emit NftTransferred(
             highestBidder,
