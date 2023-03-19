@@ -36,7 +36,7 @@ async function main() {
   
 
   ///////// ADD NFT  //////////
-  await nftAuction.addNFT(BAYC, 9547, BAYC_holder);
+  await nftAuction.addNFT(BAYC, 9547);
   console.log("added NFT...");
 
   //////////// START AUCTION ////////////
